@@ -1,0 +1,82 @@
+318:
+for (const auto& item : buckets[i]) {
+                auto iter = new_map.insert(item).first;
+            }
+57:
+double_list& operator=(const double_list<T>& other) {
+        this->clear();
+        for (const auto& item : other)
+            insert_tail(item);
+        return *this;
+    }
+
+418:
+linked_hashmap(const linked_hashmap& other) {
+        this->capacity = other.capacity;
+        this->resize(this->buckets, this->capacity);
+        history = other.history;
+        Node* current = history.head;
+        while (current && current->val_ptr) {
+            int index = this->hash(current->val_ptr->first) % this->capacity;
+            this->buckets[index].insert_tail(*(current->val_ptr));
+            current = current->next;
+        }
+    }
+
+430:
+linked_hashmap& operator=(const linked_hashmap& other) {
+        if (this == &other)
+            return *this;
+        clear();
+        this->capacity = other.capacity;
+        this->resize(this->buckets, this->capacity);
+        history = other.history;
+        Node* current = history.head;
+        while (current && current->val_ptr) {
+            int index = this->hash(current->val_ptr->first) % this->capacity;
+            this->buckets[index].insert_tail(*(current->val_ptr));
+            current = current->next;
+        }
+        // maybe something about end()
+        return *this;
+    }
+
+
+
+//
+    linked_hashmap(const linked_hashmap& other) {
+        this->capacity = other.capacity;
+        this->resize(this->buckets, this->capacity);
+        this->capacity = other.capacity;
+        this->resize(this->buckets, this->capacity);
+        for (auto iter = other.history.begin(); iter != other.history.end();
+             iter++) {
+            history.insert_tail(*(iter.ptr->val_ptr));
+            auto _iter = insert(*(iter.ptr->val_ptr)).first;
+            history.end_ptr->prev->dual = _iter.ptr;
+            _iter.ptr->dual = history.end_ptr->prev;
+        }
+    }
+
+419:
+        linked_hashmap(const linked_hashmap& other) {
+        this->capacity = other.capacity;
+        this->resize(this->buckets, this->capacity);
+        for (auto iter = other.history.begin(); iter != other.history.end();
+             iter++) {
+            history.insert_tail(*(iter.ptr->val_ptr));
+            auto _iter =
+                hashmap<Key, T, Hash, Equal>::insert(*(iter.ptr->val_ptr))
+                    .first;
+            history.end_ptr->prev->dual = _iter.ptr;
+            _iter.ptr->dual = history.end_ptr->prev;
+        }
+    }
+
+748:
+        // auto _ptr = iter.ptr->dual;
+        // auto value = *(iter.ptr->val_ptr);
+        // map.history.erase(Node_iterator(iter.ptr));
+        // map.history.insert_tail(value);
+        // _ptr->dual = map.history.end_ptr->prev;
+        // return &(map.history.end_ptr->prev->val_ptr->second);
